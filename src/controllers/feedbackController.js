@@ -308,3 +308,62 @@ exports.getFeedbackResponses = async (req, res) => {
     });
   }
 };
+
+// Update a question in a form
+// src/controllers/feedbackController.js
+exports.updateQuestion = async (req, res) => {
+  try {
+    const { formId, questionId } = req.params;
+    const updateData = req.body;
+    
+    // Find the existing question
+    const existingQuestion = await FeedbackQuestion.findById(questionId);
+    
+    if (!existingQuestion) {
+      return res.status(404).json({
+        success: false,
+        message: "Question not found"
+      });
+    }
+    
+    // Store original text before updating (for reporting purposes)
+    const originalText = existingQuestion.text;
+    const wasTextChanged = originalText !== updateData.text;
+    
+    // If text is changed, add modification history
+    if (wasTextChanged && updateData.text) {
+      // Add to questionHistory array if it doesn't exist
+      if (!existingQuestion.questionHistory) {
+        existingQuestion.questionHistory = [];
+      }
+      
+      // Add the current version to history before updating
+      existingQuestion.questionHistory.push({
+        text: originalText,
+        changedAt: new Date()
+      });
+    }
+    
+    // Update the question
+    updateData.updatedAt = new Date();
+    
+    const updatedQuestion = await FeedbackQuestion.findByIdAndUpdate(
+      questionId,
+      updateData,
+      { new: true, runValidators: true }
+    );
+    
+    res.status(200).json({
+      success: true,
+      data: updatedQuestion
+    });
+  } catch (error) {
+    console.error("Error updating question:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update question",
+      error: error.message
+    });
+  }
+};
+

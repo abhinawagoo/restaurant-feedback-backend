@@ -11,6 +11,8 @@ const restaurantRoutes = require("./routes/restaurantRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const tableRoutes = require("./routes/tableRoutes");
+const analyticsRoutes = require('./routes/analyticsRoutes');
+
 
 // Load environment variables
 dotenv.config();
@@ -36,6 +38,8 @@ app.use("/api/menu", menuRoutes);
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/tables", tableRoutes);
+app.use('/api/analytics', analyticsRoutes);
+
 
 // Test route
 app.get("/", (req, res) => {
@@ -52,7 +56,7 @@ app.use((err, req, res, next) => {
 });
 
 // Connect to MongoDB and start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 mongoose
   .connect(process.env.MONGODB_URI)

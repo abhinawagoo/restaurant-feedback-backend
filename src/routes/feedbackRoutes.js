@@ -7,6 +7,7 @@ const {
   addQuestion,
   submitFeedback,
   getFeedbackResponses,
+  updateQuestion,
 } = require("../controllers/feedbackController");
 const {
   protectAdminRoute,
@@ -39,6 +40,9 @@ router.get(
 // Form management routes
 router.get("/forms/:formId", getFeedbackForm);
 router.post("/forms/:formId/questions", protectAdminRoute, addQuestion);
+router.put("/forms/:formId/questions/:questionId", protectAdminRoute, updateQuestion);
+
+
 
 // Customer feedback submission routes
 // router.post("/forms/:formId/submit", authenticateCustomer, submitFeedback);

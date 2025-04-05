@@ -52,6 +52,13 @@ const feedbackQuestionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  questionHistory: [{
+    text: String,
+    changedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }],
 });
 
 module.exports = mongoose.model("FeedbackQuestion", feedbackQuestionSchema);
