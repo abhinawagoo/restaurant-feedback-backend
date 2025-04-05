@@ -23,18 +23,19 @@ const app = express();
 // Middleware
 app.use(helmet()); // Security headers
 app.use(morgan("dev")); // Logging
-// app.use(
-//   cors({
-//     origin: process.env.FRONTEND_URL || "http://localhost:3000",
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  })
+);
 
-app.use(cors({
-  origin: '*', // Or your frontend URL like 'https://yourfrontend.com'
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
+// app.use(cors({
+//   origin: '*', // Or your frontend URL like 'https://yourfrontend.com'
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true
+// }));
 app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser()); // Parse cookies
 
