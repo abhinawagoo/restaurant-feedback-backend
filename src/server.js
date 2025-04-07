@@ -12,6 +12,9 @@ const feedbackRoutes = require("./routes/feedbackRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const tableRoutes = require("./routes/tableRoutes");
 const analyticsRoutes = require('./routes/analyticsRoutes');
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 
 // Load environment variables
@@ -23,18 +26,25 @@ const app = express();
 // Middleware
 app.use(helmet()); // Security headers
 app.use(morgan("dev")); // Logging
-const allowedOrigins = process.env.FRONTEND_URLS?.split(',') || [];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://restaurant-feedback-frontend.vercel.app",
+];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 
 // app.use(cors({
 //   origin: '*', // Or your frontend URL like 'https://yourfrontend.com'
