@@ -23,13 +23,18 @@ const app = express();
 // Middleware
 app.use(helmet()); // Security headers
 app.use(morgan("dev")); // Logging
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-  })
-);
+const allowedOrigins = process.env.FRONTEND_URLS?.split(',') || [];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 
 // app.use(cors({
 //   origin: '*', // Or your frontend URL like 'https://yourfrontend.com'
