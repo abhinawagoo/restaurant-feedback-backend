@@ -6,13 +6,16 @@ WORKDIR /app
 
 # Copy package.json and install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm install --production
 
 # Copy the rest of your code
 COPY . .
 
-# Expose the port Cloud Run uses
+# Set environment variable for production
+ENV NODE_ENV=production
+
+# Expose the port expected by Cloud Run
 EXPOSE 8080
 
 # Start the app
-CMD ["npm", "start"]
+CMD ["node", "src/server.js"]
