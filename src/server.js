@@ -27,14 +27,16 @@ const app = express();
 app.use(helmet()); // Security headers
 app.use(morgan("dev")); // Logging
 const allowedOrigins = [
-  "http://localhost:3000",
   "https://restaurant-feedback-frontend.vercel.app",
+  "http://localhost:3000"
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (like curl or mobile apps)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
@@ -44,6 +46,7 @@ app.use(
     credentials: true,
   })
 );
+
 
 
 // app.use(cors({
