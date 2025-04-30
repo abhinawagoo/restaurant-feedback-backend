@@ -28,6 +28,8 @@ app.use(helmet()); // Security headers
 app.use(morgan("dev")); // Logging
 const allowedOrigins = [
   "https://restaurant-feedback-frontend.vercel.app",
+  "https://hoshloop.com",
+
   "http://localhost:3000"
 ];
 
