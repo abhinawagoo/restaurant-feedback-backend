@@ -29,7 +29,7 @@ app.use(morgan("dev")); // Logging
 const allowedOrigins = [
   "https://restaurant-feedback-frontend.vercel.app",
   "https://hoshloop.com",
-
+  "https://survey.hoshloop.com",
   "http://localhost:3000"
 ];
 
