@@ -24,9 +24,10 @@ const app = express();
 
 // Configure CORS BEFORE other middleware
 const allowedOrigins = [
-  "https://restaurant-feedback-frontend.vercel.app",
-  "https://hoshloop.com",
+
   "https://survey.hoshloop.com",
+  "https://restaurant-feedback-frontend.vercel.app",
+  
   "http://localhost:3000",
   "http://localhost:3001"
 ];
