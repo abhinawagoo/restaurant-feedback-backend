@@ -27,9 +27,7 @@ const allowedOrigins = [
 
   "https://survey.hoshloop.com",
   "https://restaurant-feedback-frontend.vercel.app",
-  
   "http://localhost:3000",
-  "http://localhost:3001"
 ];
 
 const corsOptions = {
